@@ -1,0 +1,148 @@
+.container {
+  padding: 20rpx;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.order-list {
+  margin-bottom: 20rpx;
+}
+
+.order-item {
+  background-color: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.order-time {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.order-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.status-pending {
+  background-color: #fff3e0;
+  color: #ff9800;
+}
+
+.status-paid {
+  background-color: #e8f5e9;
+  color: #4caf50;
+}
+
+.status-preparing {
+  background-color: #e3f2fd;
+  color: #2196f3;
+}
+
+.status-ready {
+  background-color: #f3e5f5;
+  color: #9c27b0;
+}
+
+.status-completed {
+  background-color: #e8eaf6;
+  color: #3f51b5;
+}
+
+.status-cancelled {
+  background-color: #f5f5f5;
+  color: #9e9e9e;
+}
+
+.order-content {
+  border-top: 1rpx solid #eee;
+  border-bottom: 1rpx solid #eee;
+  padding: 16rpx 0;
+}
+
+.window-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.window-name {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.order-amount {
+  font-size: 32rpx;
+  color: #f44336;
+  font-weight: bold;
+}
+
+.dishes-info {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.first-dish {
+  margin: 0 10rpx;
+}
+
+.more-dishes {
+  color: #999;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16rpx;
+}
+
+.btn-cancel,
+.btn-evaluate {
+  margin-left: 20rpx;
+  font-size: 26rpx;
+  padding: 8rpx 24rpx;
+  border-radius: 30rpx;
+  background-color: #fff;
+}
+
+.btn-cancel {
+  color: #f44336;
+  border: 1rpx solid #f44336;
+}
+
+.btn-evaluate {
+  color: #1aad19;
+  border: 1rpx solid #1aad19;
+}
+
+.loading,
+.no-more,
+.empty {
+  text-align: center;
+  padding: 30rpx;
+  color: #999;
+  font-size: 26rpx;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+}
+
+.error-message {
+  text-align: center;
+  color: #f44336;
+  font-size: 26rpx;
+  margin-top: 20rpx;
+}

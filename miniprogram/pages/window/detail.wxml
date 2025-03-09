@@ -1,0 +1,85 @@
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <image class="loading-icon" src="/assets/icons/loading.gif" mode="aspectFit"></image>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error" wx:if="{{error}}">
+    <text>{{error}}</text>
+    <button bindtap="loadWindowDetail" class="retry-btn">重试</button>
+  </view>
+
+  <!-- 窗口详情 -->
+  <block wx:if="{{!loading && !error && window}}">
+    <!-- 窗口基本信息 -->
+    <view class="window-header">
+      <image class="window-image" src="{{window.imageUrl}}" mode="aspectFill"></image>
+      <view class="window-info">
+        <text class="window-name">{{window.name}}</text>
+        <view class="window-status {{window.status === 'open' ? 'status-open' : 'status-closed'}}">
+          {{window.statusText}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息卡片 -->
+    <view class="info-card">
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/time.png"></image>
+        <view class="operation-hours">
+          <text class="label">营业时间：</text>
+          <text>{{window.formattedHours}}</text>
+        </view>
+      </view>
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/queue.png"></image>
+        <text>当前排队：{{window.queueLength}}人</text>
+      </view>
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/clock.png"></image>
+        <text>预计等待：{{window.averageWaitTime}}分钟</text>
+      </view>
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/star.png"></image>
+        <text>评分：{{window.rating || '暂无评分'}}</text>
+      </view>
+    </view>
+
+    <!-- 菜品列表 -->
+    <view class="dishes-section">
+      <view class="section-header">
+        <text class="section-title">菜品列表</text>
+      </view>
+      <view class="category-list">
+        <view class="category-item" wx:for="{{dishes}}" wx:key="category">
+          <view class="category-header">
+            <text class="category-name">{{item.category}}</text>
+          </view>
+          <view class="dishes-grid">
+            <view class="dish-item" 
+                  wx:for="{{item.items}}" 
+                  wx:key="id"
+                  wx:for-item="dish"
+                  bindtap="navigateToDish"
+                  data-id="{{dish.id}}">
+              <image class="dish-image" src="{{dish.imageUrl}}" mode="aspectFill"></image>
+              <view class="dish-info">
+                <text class="dish-name">{{dish.name}}</text>
+                <view class="dish-price-status">
+                  <text class="dish-price">¥{{dish.price}}</text>
+                  <text class="dish-status {{dish.status === 'available' ? 'status-available' : 'status-sold-out'}}">
+                    {{dish.statusText}}
+                  </text>
+                </view>
+                <text class="dish-remaining" wx:if="{{dish.status === 'available'}}">
+                  剩余：{{dish.remainingQuantity}}
+                </text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

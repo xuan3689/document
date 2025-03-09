@@ -1,0 +1,157 @@
+.container {
+  padding: 0 0 20rpx 0;
+  background: #f8f8f8;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loading-icon {
+  width: 80rpx;
+  height: 80rpx;
+}
+
+.error {
+  padding: 40rpx;
+  text-align: center;
+}
+
+.retry-btn {
+  margin-top: 20rpx;
+  background: #1aad19;
+  color: #fff;
+}
+
+.window-header {
+  position: relative;
+  width: 100%;
+  height: 360rpx;
+}
+
+.window-image {
+  width: 100%;
+  height: 100%;
+}
+
+.window-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  color: #fff;
+}
+
+.window-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+}
+
+.window-status {
+  display: inline-block;
+  padding: 4rpx 12rpx;
+  border-radius: 4rpx;
+  font-size: 24rpx;
+}
+
+.status-open {
+  background: #1aad19;
+}
+
+.status-closed {
+  background: #999;
+}
+
+.info-card {
+  margin: 20rpx;
+  padding: 20rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.info-item:last-child {
+  margin-bottom: 0;
+}
+
+.icon {
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 12rpx;
+}
+
+.operation-hours {
+  flex: 1;
+}
+
+.label {
+  color: #666;
+  margin-right: 8rpx;
+}
+
+.dishes-section {
+  margin: 20rpx;
+}
+
+.category-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  margin: 20rpx 0;
+  padding-left: 20rpx;
+  border-left: 8rpx solid #1aad19;
+}
+
+.dishes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20rpx;
+}
+
+.dish-card {
+  background: #fff;
+  border-radius: 8rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.dish-image {
+  width: 100%;
+  height: 200rpx;
+}
+
+.dish-info {
+  padding: 16rpx;
+}
+
+.dish-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.dish-price {
+  color: #e64340;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.dish-status {
+  float: right;
+  font-size: 24rpx;
+  padding: 4rpx 8rpx;
+  border-radius: 4rpx;
+  background: #f8f8f8;
+  color: #666;
+}

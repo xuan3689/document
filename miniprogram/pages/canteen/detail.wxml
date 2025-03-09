@@ -1,0 +1,95 @@
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading" wx:if="{{loading}}">
+    <image class="loading-icon" src="/assets/icons/loading.gif" mode="aspectFit"></image>
+  </view>
+
+  <!-- 错误提示 -->
+  <view class="error" wx:if="{{error}}">
+    <text>{{error}}</text>
+    <button bindtap="loadCanteenDetail" class="retry-btn">重试</button>
+  </view>
+
+  <!-- 食堂详情 -->
+  <block wx:if="{{!loading && !error && canteen}}">
+    <!-- 食堂基本信息 -->
+    <view class="canteen-header">
+      <image class="canteen-image" src="{{canteen.imageUrl}}" mode="aspectFill"></image>
+      <view class="canteen-info">
+        <text class="canteen-name">{{canteen.name}}</text>
+        <view class="canteen-status {{canteen.status === 'open' ? 'status-open' : 'status-closed'}}">
+          {{canteen.status === 'open' ? '营业中' : '已关闭'}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 拥挤度信息 -->
+    <view class="crowdedness-info" wx:if="{{crowdedness}}">
+      <view class="crowdedness-header">
+        <image class="icon" src="/assets/icons/crowd.png"></image>
+        <text>当前状况</text>
+      </view>
+      <view class="crowdedness-details">
+        <view class="crowdedness-item">
+          <text class="label">拥挤程度：</text>
+          <text class="value {{crowdedness.crowdedness === '拥挤' ? 'crowded' : ''}}">{{crowdedness.crowdedness}}</text>
+        </view>
+        <view class="crowdedness-item">
+          <text class="label">空余座位：</text>
+          <text class="value">{{crowdedness.availableSeats}}/{{crowdedness.totalSeats}}</text>
+        </view>
+        <view class="crowdedness-progress">
+          <progress percent="{{crowdedness.occupancyRate}}" stroke-width="3" color="#1aad19" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息卡片 -->
+    <view class="info-card">
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/location.png"></image>
+        <text>{{canteen.location}}</text>
+      </view>
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/time.png"></image>
+        <text>{{canteen.openTime}} - {{canteen.closeTime}}</text>
+      </view>
+      <view class="info-item">
+        <image class="icon" src="/assets/icons/star.png"></image>
+        <text>{{canteen.averageRating || '暂无评分'}}</text>
+      </view>
+    </view>
+
+    <!-- 窗口列表 -->
+    <view class="windows-section">
+      <view class="section-header">
+        <text class="section-title">窗口列表</text>
+      </view>
+      <view class="windows-list">
+        <view class="window-item" 
+              wx:for="{{windows}}" 
+              wx:key="id"
+              bindtap="navigateToWindow"
+              data-id="{{item.id}}">
+          <image class="window-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+          <view class="window-info">
+            <view class="window-header">
+              <text class="window-name">{{item.name}}</text>
+              <text class="window-status">{{item.statusText}}</text>
+            </view>
+            <view class="window-details">
+              <view class="queue-info">
+                <image class="icon" src="/assets/icons/queue.png"></image>
+                <text>等待：{{item.queueLength}}人</text>
+              </view>
+              <view class="wait-time">
+                <image class="icon" src="/assets/icons/time.png"></image>
+                <text>预计等待：{{item.averageWaitTime}}分钟</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+</view>

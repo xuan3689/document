@@ -1,0 +1,45 @@
+<view class="container">
+  <view class="window-info" wx:if="{{window}}">
+    <view class="window-header">
+      <text class="window-name">{{window.name}}</text>
+      <text class="window-status {{window.isOpen ? 'status-open' : 'status-closed'}}">{{window.isOpen ? '营业中' : '已关闭'}}</text>
+    </view>
+    <view class="queue-info">
+      <text>当前排队：{{window.queueLength}}人</text>
+      <text>预计等待：{{window.estimatedWaitTime}}分钟</text>
+    </view>
+  </view>
+
+  <view class="dishes-list">
+    <view class="section-title">已选菜品</view>
+    <view class="dish-item" wx:for="{{selectedDishes}}" wx:key="id">
+      <image class="dish-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+      <view class="dish-info">
+        <text class="dish-name">{{item.name}}</text>
+        <text class="dish-price">¥{{item.price}}</text>
+      </view>
+      <view class="quantity-control">
+        <button class="btn-decrease" bindtap="updateDishQuantity" data-index="{{index}}" data-type="decrease">-</button>
+        <text class="quantity">{{item.quantity}}</text>
+        <button class="btn-increase" bindtap="updateDishQuantity" data-index="{{index}}" data-type="increase">+</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="remark-section">
+    <view class="section-title">备注</view>
+    <textarea class="remark-input" placeholder="请输入备注信息（选填）" value="{{remark}}" bindinput="onRemarkInput"></textarea>
+  </view>
+
+  <view class="order-summary">
+    <view class="total-amount">
+      <text>合计</text>
+      <text class="amount">¥{{totalAmount}}</text>
+    </view>
+    <button class="btn-submit" bindtap="submitOrder" loading="{{loading}}" disabled="{{loading || !window.isOpen}}">提交订单</button>
+  </view>
+
+  <view class="error-message" wx:if="{{error}}">
+    {{error}}
+  </view>
+</view>

@@ -1,0 +1,52 @@
+<view class="container">
+  <view class="order-info" wx:if="{{order}}">
+    <text class="window-name">{{order.window.name}}</text>
+    <view class="dishes-summary">
+      <text>{{order.dishes.length}}个菜品</text>
+      <text class="order-amount">¥{{order.totalAmount}}</text>
+    </view>
+  </view>
+
+  <view class="evaluation-form">
+    <view class="rating-section">
+      <view class="rating-item">
+        <text class="rating-label">总体评分</text>
+        <slider class="rating-slider" min="0" max="5" step="0.5" value="{{rating}}" bindchange="onRatingChange" data-type="rating" show-value />
+      </view>
+      <view class="rating-item">
+        <text class="rating-label">口味评分</text>
+        <slider class="rating-slider" min="0" max="5" step="0.5" value="{{taste}}" bindchange="onRatingChange" data-type="taste" show-value />
+      </view>
+      <view class="rating-item">
+        <text class="rating-label">服务评分</text>
+        <slider class="rating-slider" min="0" max="5" step="0.5" value="{{service}}" bindchange="onRatingChange" data-type="service" show-value />
+      </view>
+    </view>
+
+    <view class="content-section">
+      <text class="section-title">评价内容</text>
+      <textarea class="content-input" placeholder="请输入您的评价内容（选填）" value="{{content}}" bindinput="onContentInput"></textarea>
+    </view>
+
+    <view class="images-section">
+      <text class="section-title">上传图片（最多3张）</text>
+      <view class="images-grid">
+        <view class="image-item" wx:for="{{images}}" wx:key="*this">
+          <image class="preview-image" src="{{item}}" mode="aspectFill"></image>
+          <view class="remove-image" bindtap="removeImage" data-index="{{index}}">×</view>
+        </view>
+        <view class="add-image" bindtap="chooseImage" wx:if="{{images.length < 3}}">
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="submit-section">
+    <button class="btn-submit" bindtap="submitEvaluation" loading="{{loading}}" disabled="{{loading || rating === 0}}">提交评价</button>
+  </view>
+
+  <view class="error-message" wx:if="{{error}}">
+    {{error}}
+  </view>
+</view>

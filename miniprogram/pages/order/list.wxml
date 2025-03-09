@@ -1,0 +1,56 @@
+<view class="container">
+  <view class="order-list">
+    <view class="order-item" 
+          wx:for="{{orders}}" 
+          wx:key="id"
+          bindtap="navigateToOrderDetail"
+          data-id="{{item.id}}">
+      <view class="order-header">
+        <text class="order-time">{{item.formattedTime}}</text>
+        <text class="order-status {{item.statusClass}}">{{item.statusText}}</text>
+      </view>
+
+      <view class="order-content">
+        <view class="window-info">
+          <text class="window-name">{{item.window.name}}</text>
+          <text class="order-amount">¥{{item.totalAmount}}</text>
+        </view>
+
+        <view class="dishes-info">
+          <text class="dishes-summary">{{item.dishes.length}}个菜品</text>
+          <text class="first-dish" wx:if="{{item.dishes[0]}}">{{item.dishes[0].name}}</text>
+          <text class="more-dishes" wx:if="{{item.dishes.length > 1}}">等{{item.dishes.length}}件</text>
+        </view>
+      </view>
+
+      <view class="order-footer">
+        <button class="btn-cancel" 
+                wx:if="{{item.status === 'pending'}}"
+                catchtap="cancelOrder"
+                data-id="{{item.id}}"
+                data-index="{{index}}">取消订单</button>
+        <button class="btn-evaluate" 
+                wx:if="{{item.status === 'completed' && !item.hasEvaluation}}"
+                catchtap="navigateToEvaluation"
+                data-id="{{item.id}}">评价</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && orders.length > 0}}">
+    <text>没有更多订单了</text>
+  </view>
+
+  <view class="empty" wx:if="{{!loading && orders.length === 0}}">
+    <image class="empty-icon" src="/assets/icons/empty.png"></image>
+    <text>暂无订单记录</text>
+  </view>
+
+  <view class="error-message" wx:if="{{error}}">
+    {{error}}
+  </view>
+</view>

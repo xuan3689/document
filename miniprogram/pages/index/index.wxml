@@ -1,0 +1,37 @@
+<!--index.wxml-->
+<scroll-view class="scrollarea" scroll-y type="list">
+  <view class="container">
+    <view class="userinfo">
+      <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
+        <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+        </button>
+        <view class="nickname-wrapper">
+          <text class="nickname-label">昵称</text>
+          <input type="nickname" class="nickname-input" placeholder="请输入昵称" bindinput="onInputChange" />
+        </view>
+      </block>
+      <block wx:elif="{{!hasUserInfo}}">
+        <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
+        <view wx:else> 请使用2.10.4及以上版本基础库 </view>
+      </block>
+      <block wx:else>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+      </block>
+    </view>
+    <view class="canteen-list">
+      <view wx:if="{{loading}}" class="loading">加载中...</view>
+      <view wx:elif="{{error}}" class="error">{{error}}</view>
+      <block wx:else>
+        <view wx:for="{{canteens}}" wx:key="id" class="canteen-item" bindtap="navigateToCanteen" data-id="{{item.id}}">
+          <view class="canteen-info">
+            <text class="canteen-name">{{item.name}}</text>
+            <text class="canteen-status {{item.statusClass}}">{{item.statusText}}</text>
+          </view>
+          <text class="canteen-description">{{item.description}}</text>
+        </view>
+      </block>
+    </view>
+  </view>
+</scroll-view>
