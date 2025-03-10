@@ -1,0 +1,43 @@
+<view class="container">
+  <view class="filter-section">
+    <view class="filter-item {{!targetType ? 'active' : ''}}" bindtap="setFilter" data-type="">
+      全部
+    </view>
+    <view class="filter-item {{targetType === 'dish' ? 'active' : ''}}" bindtap="setFilter" data-type="dish">
+      菜品
+    </view>
+    <view class="filter-item {{targetType === 'window' ? 'active' : ''}}" bindtap="setFilter" data-type="window">
+      窗口
+    </view>
+    <view class="filter-item {{targetType === 'canteen' ? 'active' : ''}}" bindtap="setFilter" data-type="canteen">
+      食堂
+    </view>
+  </view>
+
+  <view class="favorite-list">
+    <view class="favorite-item" wx:for="{{favorites}}" wx:key="id" bindtap="navigateToDetail" data-type="{{item.targetType}}" data-id="{{item.targetId}}">
+      <image class="item-image" src="{{item.imageUrl || '/assets/images/default.png'}}" mode="aspectFill" />
+      <view class="item-info">
+        <text class="item-name">{{item.name}}</text>
+        <text class="item-type">{{item.targetType === 'dish' ? '菜品' : item.targetType === 'window' ? '窗口' : '食堂'}}</text>
+        <text class="item-date">{{item.createdAt}}</text>
+      </view>
+      <view class="cancel-btn" catchtap="cancelFavorite" data-id="{{item.id}}">
+        <text>取消收藏</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="loading" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view class="no-more" wx:if="{{!hasMore && favorites.length > 0}}">
+    <text>没有更多了</text>
+  </view>
+
+  <view class="empty" wx:if="{{!loading && favorites.length === 0}}">
+    <image src="/assets/images/empty.png" mode="aspectFit" />
+    <text>暂无收藏</text>
+  </view>
+</view>

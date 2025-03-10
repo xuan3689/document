@@ -1,0 +1,30 @@
+<view class="login-container">
+  <view class="login-header">
+    <image class="login-logo" src="/assets/icons/logo.png" mode="aspectFit"></image>
+    <text class="login-title">校园食堂</text>
+  </view>
+
+  <view class="login-form">
+    <view class="input-group">
+      <image class="input-icon" src="/assets/icons/user.png" mode="aspectFit"></image>
+      <input class="login-input" type="text" placeholder="请输入用户名" bindinput="onUsernameInput" />
+    </view>
+    
+    <view class="input-group">
+      <image class="input-icon" src="/assets/icons/password.png" mode="aspectFit"></image>
+      <input class="login-input" type="password" placeholder="请输入密码" bindinput="onPasswordInput" password="true" />
+    </view>
+
+    <button class="login-btn {{loading ? 'loading' : ''}}" bindtap="handleLogin" disabled="{{loading}}">
+      <text wx:if="{{!loading}}">登录</text>
+      <view wx:else class="loading-spinner"></view>
+    </button>
+
+    <view class="error-message" wx:if="{{error}}">{{error}}</view>
+  </view>
+
+  <view class="register-link">
+    <text>还没有账号？</text>
+    <text class="link" bindtap="navigateToRegister">立即注册</text>
+  </view>
+</view>

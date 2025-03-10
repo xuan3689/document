@@ -3,12 +3,32 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/canteen/detail",
-    "pages/window/detail"
+    "pages/window/detail",
+    "pages/profile/index"
   ],
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "校园食堂",
     "navigationBarBackgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#1296db",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile-active.png"
+      }
+    ]
   },
   "style": "v2",
   "componentFramework": "glass-easel",

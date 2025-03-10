@@ -6,12 +6,14 @@ Page({
     window: null,
     dishes: [],
     loading: true,
-    error: null
+    error: null,
+    isFavorite: false
   },
 
   onLoad(options) {
     this.setData({ windowId: options.id });
     this.loadWindowDetail();
+    this.checkFavoriteStatus();
   },
 
   onPullDownRefresh() {
@@ -93,5 +95,52 @@ Page({
       title: `${this.data.window?.name || '窗口详情'} - 校园食堂`,
       path: `/pages/window/detail?id=${this.data.windowId}`
     };
+  },
+
+  async checkFavoriteStatus() {
+    try {
+      const res = await app.request({
+        url: `/api/user/favorites/check`,
+        method: 'GET',
+        data: {
+          targetId: this.data.windowId,
+          targetType: 'window'
+        }
+      });
+      this.setData({ isFavorite: res.isFavorite });
+    } catch (error) {
+      console.error('检查收藏状态失败:', error);
+    }
+  },
+
+  async toggleFavorite() {
+    try {
+      if (this.data.isFavorite) {
+        await app.request({
+          url: `/api/user/favorites/${this.data.windowId}`,
+          method: 'DELETE'
+        });
+      } else {
+        await app.request({
+          url: '/api/user/favorites',
+          method: 'POST',
+          data: {
+            targetId: this.data.windowId,
+            targetType: 'window'
+          }
+        });
+      }
+
+      this.setData({ isFavorite: !this.data.isFavorite });
+      wx.showToast({
+        title: this.data.isFavorite ? '收藏成功' : '取消收藏成功',
+        icon: 'success'
+      });
+    } catch (error) {
+      wx.showToast({
+        title: this.data.isFavorite ? '取消收藏失败' : '收藏失败',
+        icon: 'none'
+      });
+    }
   }
 });

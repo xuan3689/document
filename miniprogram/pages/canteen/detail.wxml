@@ -20,6 +20,10 @@
         <view class="canteen-status {{canteen.status === 'open' ? 'status-open' : 'status-closed'}}">
           {{canteen.status === 'open' ? '营业中' : '已关闭'}}
         </view>
+        <view class="favorite-btn {{isFavorite ? 'is-favorite' : ''}}" bindtap="toggleFavorite">
+          <image class="favorite-icon" src="/assets/icons/{{isFavorite ? 'favorite-filled' : 'favorite'}}.png" mode="aspectFit"></image>
+          <text>{{isFavorite ? '已收藏' : '收藏'}}</text>
+        </view>
       </view>
     </view>
 

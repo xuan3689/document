@@ -25,9 +25,23 @@
       <view wx:elif="{{error}}" class="error">{{error}}</view>
       <block wx:else>
         <view wx:for="{{canteens}}" wx:key="id" class="canteen-item" bindtap="navigateToCanteen" data-id="{{item.id}}">
+          <image class="canteen-image" src="{{item.imageUrl || '/assets/images/canteens/default.jpg'}}" mode="aspectFill"></image>
           <view class="canteen-info">
-            <text class="canteen-name">{{item.name}}</text>
+            <view class="canteen-name-wrapper">
+              <image class="icon" src="/assets/icons/location.png" mode="aspectFit"></image>
+              <text class="canteen-name">{{item.name}}</text>
+            </view>
             <text class="canteen-status {{item.statusClass}}">{{item.statusText}}</text>
+          </view>
+          <view class="canteen-details">
+            <view class="detail-item">
+              <image class="icon" src="/assets/icons/time.png" mode="aspectFit"></image>
+              <text>{{item.businessHours}}</text>
+            </view>
+            <view class="detail-item">
+              <image class="icon" src="/assets/icons/star.png" mode="aspectFit"></image>
+              <text>{{item.rating || '暂无评分'}}</text>
+            </view>
           </view>
           <text class="canteen-description">{{item.description}}</text>
         </view>

@@ -1,0 +1,128 @@
+.login-container {
+  min-height: 100vh;
+  padding: 40rpx;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background-image: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.03" fill-rule="evenodd"%3E%3Cpath d="M0 20h40v1H0v-1zm0-8h40v1H0v-1zm0 16h40v1H0v-1z"/%3E%3C/g%3E%3C/svg%3E');
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60rpx;
+}
+
+.login-logo {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 20rpx;
+}
+
+.login-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.login-form {
+  width: 100%;
+  max-width: 600rpx;
+  padding: 40rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 30rpx;
+}
+
+.input-icon {
+  position: absolute;
+  left: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40rpx;
+  height: 40rpx;
+  opacity: 0.6;
+}
+
+.login-input {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 88rpx;
+  background: #f5f5f5;
+  border-radius: 44rpx;
+  font-size: 28rpx;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  background: #fff;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.login-btn {
+  width: 100%;
+  height: 88rpx;
+  margin-top: 40rpx;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 32rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+.login-btn.loading {
+  opacity: 0.8;
+}
+
+.loading-spinner {
+  width: 40rpx;
+  height: 40rpx;
+  border: 4rpx solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  margin-top: 20rpx;
+  color: var(--danger-color);
+  font-size: 24rpx;
+  text-align: center;
+}
+
+.register-link {
+  margin-top: 40rpx;
+  font-size: 28rpx;
+  color: var(--text-secondary);
+}
+
+.link {
+  color: var(--primary-color);
+  margin-left: 10rpx;
+}
+
+.link:active {
+  opacity: 0.8;
+}

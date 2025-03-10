@@ -1,75 +1,88 @@
-/**index.wxss**/
-page {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-.scrollarea {
-  flex: 1;
-  overflow-y: hidden;
+.canteen-list {
+  padding: 20rpx;
 }
 
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
-  width: 80%;
-}
-
-.userinfo-avatar {
+.canteen-item {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
 }
 
-.usermotto {
-  margin-top: 200px;
-}
-
-.avatar-wrapper {
-  padding: 0;
-  width: 56px !important;
-  border-radius: 8px;
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.avatar {
-  display: block;
-  width: 56px;
-  height: 56px;
-}
-
-.nickname-wrapper {
-  display: flex;
+.canteen-image {
   width: 100%;
-  padding: 16px;
-  box-sizing: border-box;
-  border-top: .5px solid rgba(0, 0, 0, 0.1);
-  border-bottom: .5px solid rgba(0, 0, 0, 0.1);
-  color: black;
+  height: 300rpx;
+  border-radius: 8rpx;
+  margin-bottom: 20rpx;
+  object-fit: cover;
 }
 
-.nickname-label {
-  width: 105px;
+.canteen-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16rpx;
 }
 
-.nickname-input {
-  flex: 1;
-}
-.userinfo button {
-  margin: 16px;
-  padding: 8px 24px;
-  background-color: #07c160;
-  color: white;
-  border-radius: 4px;
-  font-size: 14px;
-  border: none;
+.canteen-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.userinfo button:active {
-  opacity: 0.8;
+.canteen-status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+}
+
+.status-open {
+  background: #e8f5e9;
+  color: #4caf50;
+}
+
+.status-closed {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.canteen-description {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.canteen-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 8rpx;
+}
+
+.icon {
+  width: 32rpx;
+  height: 32rpx;
+}
+
+.canteen-details {
+  margin: 16rpx 0;
 }

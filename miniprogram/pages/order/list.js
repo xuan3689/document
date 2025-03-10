@@ -105,6 +105,13 @@ Page({
     });
   },
 
+  navigateToEvaluation(e) {
+    const { id } = e.currentTarget.dataset;
+    wx.navigateTo({
+      url: `/pages/evaluation/create?id=${id}`
+    });
+  },
+
   async cancelOrder(e) {
     const { id, index } = e.currentTarget.dataset;
 
@@ -141,4 +148,4 @@ Page({
       });
     }
   }
-}));
+});

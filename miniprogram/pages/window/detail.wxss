@@ -1,6 +1,6 @@
 .container {
   padding: 0 0 20rpx 0;
-  background: #f8f8f8;
+  background: var(--background);
 }
 
 .loading {
@@ -13,28 +13,36 @@
 .loading-icon {
   width: 80rpx;
   height: 80rpx;
+  animation: rotate 1s linear infinite;
 }
 
 .error {
   padding: 40rpx;
   text-align: center;
+  color: var(--danger-color);
 }
 
 .retry-btn {
   margin-top: 20rpx;
-  background: #1aad19;
+  background: var(--primary-color);
   color: #fff;
+  transition: var(--transition);
 }
 
 .window-header {
   position: relative;
   width: 100%;
   height: 360rpx;
+  overflow: hidden;
+  border-radius: 0 0 24rpx 24rpx;
+  box-shadow: var(--card-shadow);
 }
 
 .window-image {
   width: 100%;
   height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
 }
 
 .window-info {
@@ -58,28 +66,33 @@
   padding: 4rpx 12rpx;
   border-radius: 4rpx;
   font-size: 24rpx;
+  transition: var(--transition);
 }
 
 .status-open {
-  background: #1aad19;
+  background: var(--primary-color);
 }
 
 .status-closed {
-  background: #999;
+  background: var(--text-light);
 }
 
 .info-card {
   margin: 20rpx;
   padding: 20rpx;
   background: #fff;
-  border-radius: 8rpx;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+  border-radius: 12rpx;
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
 }
 
 .info-item {
   display: flex;
   align-items: center;
-  margin-bottom: 16rpx;
+  gap: 10rpx;
+  margin-bottom: 12rpx;
+  color: var(--text-secondary);
+  font-size: 26rpx;
 }
 
 .info-item:last-child {
@@ -90,15 +103,7 @@
   width: 32rpx;
   height: 32rpx;
   margin-right: 12rpx;
-}
-
-.operation-hours {
-  flex: 1;
-}
-
-.label {
-  color: #666;
-  margin-right: 8rpx;
+  transition: var(--transition);
 }
 
 .dishes-section {
@@ -110,7 +115,8 @@
   font-weight: bold;
   margin: 20rpx 0;
   padding-left: 20rpx;
-  border-left: 8rpx solid #1aad19;
+  border-left: 8rpx solid var(--primary-color);
+  color: var(--text-color);
 }
 
 .dishes-grid {
@@ -121,14 +127,20 @@
 
 .dish-card {
   background: #fff;
-  border-radius: 8rpx;
+  border-radius: 12rpx;
   overflow: hidden;
-  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
+  transition: var(--transition);
+}
+
+.dish-card:active {
+  transform: scale(0.98);
 }
 
 .dish-image {
   width: 100%;
   height: 200rpx;
+  object-fit: cover;
 }
 
 .dish-info {
@@ -139,10 +151,11 @@
   font-size: 28rpx;
   font-weight: bold;
   margin-bottom: 8rpx;
+  color: var(--text-color);
 }
 
 .dish-price {
-  color: #e64340;
+  color: var(--danger-color);
   font-size: 32rpx;
   font-weight: bold;
 }
@@ -152,6 +165,6 @@
   font-size: 24rpx;
   padding: 4rpx 8rpx;
   border-radius: 4rpx;
-  background: #f8f8f8;
-  color: #666;
+  background: var(--background);
+  color: var(--text-secondary);
 }

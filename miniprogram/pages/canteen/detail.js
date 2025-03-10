@@ -7,13 +7,15 @@ Page({
     windows: [],
     loading: true,
     error: null,
-    crowdedness: null
+    crowdedness: null,
+    isFavorite: false
   },
 
   onLoad(options) {
     this.setData({ canteenId: options.id });
     this.loadCanteenDetail();
     this.loadCrowdedness();
+    this.checkFavoriteStatus();
   },
 
   onPullDownRefresh() {
@@ -75,5 +77,52 @@ Page({
     wx.navigateTo({
       url: `/pages/window/detail?id=${id}`
     });
+  },
+
+  async checkFavoriteStatus() {
+    try {
+      const res = await app.request({
+        url: `/api/user/favorites/check`,
+        method: 'GET',
+        data: {
+          targetId: this.data.canteenId,
+          targetType: 'canteen'
+        }
+      });
+      this.setData({ isFavorite: res.isFavorite });
+    } catch (error) {
+      console.error('检查收藏状态失败:', error);
+    }
+  },
+
+  async toggleFavorite() {
+    try {
+      if (this.data.isFavorite) {
+        await app.request({
+          url: `/api/user/favorites/${this.data.canteenId}`,
+          method: 'DELETE'
+        });
+      } else {
+        await app.request({
+          url: '/api/user/favorites',
+          method: 'POST',
+          data: {
+            targetId: this.data.canteenId,
+            targetType: 'canteen'
+          }
+        });
+      }
+
+      this.setData({ isFavorite: !this.data.isFavorite });
+      wx.showToast({
+        title: this.data.isFavorite ? '收藏成功' : '取消收藏成功',
+        icon: 'success'
+      });
+    } catch (error) {
+      wx.showToast({
+        title: this.data.isFavorite ? '取消收藏失败' : '收藏失败',
+        icon: 'none'
+      });
+    }
   }
 });
