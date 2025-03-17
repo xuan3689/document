@@ -21,12 +21,9 @@ Page({
   async loadOrderDetail() {
     try {
       this.setData({ loading: true, error: null });
-      const res = await wx.request({
-        url: `${app.globalData.baseUrl}/orders/${this.data.orderId}`,
-        method: 'GET',
-        header: {
-          'Authorization': `Bearer ${wx.getStorageSync('token')}`
-        }
+      const res = await app.request({
+        url: `/orders/${this.data.orderId}`,
+        method: 'GET'
       });
 
       if (res.statusCode === 200) {
@@ -52,22 +49,45 @@ Page({
   },
 
   async chooseImage() {
-    const res = await wx.chooseImage({
-      count: 3,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera']
-    });
+    try {
+      const res = await wx.chooseImage({
+        count: 3,
+        sizeType: ['compressed'],
+        sourceType: ['album', 'camera']
+      });
 
-    const images = [...this.data.images, ...res.tempFilePaths];
-    if (images.length > 3) {
+      // 检查文件大小
+      for (const tempFilePath of res.tempFilePaths) {
+        const fileInfo = await wx.getFileInfo({
+          filePath: tempFilePath
+        });
+        
+        if (fileInfo.size > 2 * 1024 * 1024) { // 2MB限制
+          wx.showToast({
+            title: '图片大小不能超过2MB',
+            icon: 'none'
+          });
+          return;
+        }
+      }
+
+      const images = [...this.data.images, ...res.tempFilePaths];
+      if (images.length > 3) {
+        wx.showToast({
+          title: '最多上传3张图片',
+          icon: 'none'
+        });
+        return;
+      }
+
+      this.setData({ images });
+    } catch (error) {
+      console.error('选择图片失败:', error);
       wx.showToast({
-        title: '最多上传3张图片',
+        title: '选择图片失败，请重试',
         icon: 'none'
       });
-      return;
     }
-
-    this.setData({ images });
   },
 
   removeImage(e) {
@@ -92,13 +112,31 @@ Page({
       // 上传图片
       const uploadedImages = [];
       for (const image of this.data.images) {
-        const uploadRes = await wx.uploadFile({
-          url: `${app.globalData.baseUrl}/upload`,
-          filePath: image,
-          name: 'file',
-          header: {
-            'Authorization': `Bearer ${wx.getStorageSync('token')}`
-          }
+        const uploadRes = await new Promise((resolve, reject) => {
+          wx.uploadFile({
+            url: `${app.globalData.baseUrl}/upload`,
+            filePath: image,
+            name: 'file',
+            header: {
+              'Authorization': `Bearer ${wx.getStorageSync('token')}`
+            },
+            success: (res) => {
+              if (res.statusCode === 401) {
+                wx.removeStorageSync('token');
+                wx.navigateTo({
+                  url: '/pages/login/index'
+                });
+                reject(new Error('登录已过期，请重新登录'));
+              } else if (res.statusCode >= 200 && res.statusCode < 300) {
+                resolve(res);
+              } else {
+                reject(new Error(res.data?.message || `上传失败：${res.statusCode}`));
+              }
+            },
+            fail: (err) => {
+              reject(new Error(err.errMsg || '上传失败，请稍后重试'));
+            }
+          });
         });
         const { url } = JSON.parse(uploadRes.data);
         uploadedImages.push(url);
@@ -114,13 +152,10 @@ Page({
         images: uploadedImages
       };
 
-      const res = await wx.request({
-        url: `${app.globalData.baseUrl}/evaluations`,
+      const res = await app.request({
+        url: '/evaluations',
         method: 'POST',
-        data: evaluationData,
-        header: {
-          'Authorization': `Bearer ${wx.getStorageSync('token')}`
-        }
+        data: evaluationData
       });
 
       if (res.statusCode === 201) {
@@ -146,4 +181,4 @@ Page({
       this.setData({ loading: false });
     }
   }
-}));
+});
