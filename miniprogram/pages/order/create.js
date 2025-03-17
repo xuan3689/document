@@ -128,4 +128,4 @@ Page({
       this.setData({ loading: false });
     }
   }
-}));
+});

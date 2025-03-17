@@ -1,7 +1,6 @@
 const sequelize = require('../config/database');
 const Canteen = require('../models/canteen');
 const Window = require('../models/window');
-const Dish = require('../models/dish');
 
 async function initializeDatabase() {
   try {
@@ -71,80 +70,6 @@ async function initializeDatabase() {
       rating: 4.7,
       imageUrl: 'https://example.com/window3.jpg',
       operationHours: '10:00-20:00'
-    });
-
-    // 创建示例菜品数据
-    const window1 = await Window.findOne({ where: { name: '川湘风味' } });
-    const window2 = await Window.findOne({ where: { name: '粤式炒饭' } });
-    const window3 = await Window.findOne({ where: { name: '面食坊' } });
-
-    // 川湘风味窗口的菜品
-    await Dish.create({
-      windowId: window1.id,
-      name: '麻婆豆腐',
-      price: 12.00,
-      description: '经典川菜，麻辣鲜香',
-      category: '川菜',
-      imageUrl: 'https://example.com/dishes/mapo-tofu.jpg',
-      status: 'available',
-      remainingQuantity: 50
-    });
-
-    await Dish.create({
-      windowId: window1.id,
-      name: '剁椒鱼头',
-      price: 38.00,
-      description: '湖南特色菜，鲜辣可口',
-      category: '湘菜',
-      imageUrl: 'https://example.com/dishes/fish-head.jpg',
-      status: 'available',
-      remainingQuantity: 20
-    });
-
-    // 粤式炒饭窗口的菜品
-    await Dish.create({
-      windowId: window2.id,
-      name: '扬州炒饭',
-      price: 15.00,
-      description: '经典粤式炒饭，配料丰富',
-      category: '主食',
-      imageUrl: 'https://example.com/dishes/yangzhou-rice.jpg',
-      status: 'available',
-      remainingQuantity: 100
-    });
-
-    await Dish.create({
-      windowId: window2.id,
-      name: '叉烧饭',
-      price: 18.00,
-      description: '香甜可口的叉烧配上喷香米饭',
-      category: '主食',
-      imageUrl: 'https://example.com/dishes/char-siu-rice.jpg',
-      status: 'available',
-      remainingQuantity: 80
-    });
-
-    // 面食坊窗口的菜品
-    await Dish.create({
-      windowId: window3.id,
-      name: '牛肉拉面',
-      price: 16.00,
-      description: '手工拉面配上鲜美牛肉',
-      category: '面食',
-      imageUrl: 'https://example.com/dishes/beef-noodles.jpg',
-      status: 'available',
-      remainingQuantity: 60
-    });
-
-    await Dish.create({
-      windowId: window3.id,
-      name: '炸酱面',
-      price: 14.00,
-      description: '传统北方炸酱面，浓香可口',
-      category: '面食',
-      imageUrl: 'https://example.com/dishes/zhajiang-noodles.jpg',
-      status: 'available',
-      remainingQuantity: 70
     });
 
     console.log('示例数据创建成功');

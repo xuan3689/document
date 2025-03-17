@@ -18,7 +18,6 @@ User.init({
   phone: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       is: /^1[3-9]\d{9}$/
     }
@@ -41,7 +40,6 @@ User.init({
   },
   openid: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: true
   },
   createdAt: {
@@ -55,6 +53,16 @@ User.init({
 }, {
   sequelize,
   modelName: 'User',
+  indexes: [
+    {
+      unique: true,
+      fields: ['phone']
+    },
+    {
+      unique: true,
+      fields: ['openid']
+    }
+  ],
   hooks: {
     // 保存前对密码进行加密
     beforeSave: async (user) => {

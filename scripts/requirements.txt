@@ -1,0 +1,4 @@
+opencv-python>=4.5.0
+numpy>=1.19.0
+websockets>=10.0
+asyncio>=3.4.3

@@ -1,6 +1,6 @@
-<!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
+    <!-- 用户信息部分 -->
     <view class="userinfo">
       <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
         <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
@@ -20,6 +20,47 @@
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </block>
     </view>
+
+    <!-- 食堂列表部分 -->
+    <view class="section-title">食堂列表</view>
+    <swiper class="canteen-swiper" indicator-dots="true" autoplay="true" interval="3000" duration="500">
+      <block wx:for="{{canteens}}" wx:key="id">
+        <swiper-item>
+          <view class="canteen-card" bindtap="navigateToCanteen" data-id="{{item.id}}">
+            <image class="canteen-image" src="{{item.imageUrl || '/assets/images/canteens/default.jpg'}}" mode="aspectFill"></image>
+            <view class="canteen-info">
+              <view class="canteen-name-wrapper">
+                <image class="icon" src="/assets/icons/location.png" mode="aspectFit"></image>
+                <text class="canteen-name">{{item.name}}</text>
+              </view>
+              <text class="canteen-status {{item.statusClass}}">{{item.statusText}}</text>
+            </view>
+          </view>
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <!-- 热门推荐部分 -->
+    <view class="section-title">热门推荐</view>
+    <scroll-view class="hot-recommend" scroll-x="true">
+      <view class="recommend-list">
+        <block wx:for="{{canteens}}" wx:key="id">
+          <view class="recommend-card" bindtap="navigateToCanteen" data-id="{{item.id}}">
+            <image class="recommend-image" src="{{item.imageUrl || '/assets/images/canteens/default.jpg'}}" mode="aspectFill"></image>
+            <view class="recommend-info">
+              <text class="recommend-name">{{item.name}}</text>
+              <view class="recommend-rating">
+                <image class="icon" src="/assets/icons/star.png" mode="aspectFit"></image>
+                <text>{{item.rating || '暂无评分'}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+
+    <!-- 食堂卡片列表 -->
+    <view class="section-title">所有食堂</view>
     <view class="canteen-list">
       <view wx:if="{{loading}}" class="loading">加载中...</view>
       <view wx:elif="{{error}}" class="error">{{error}}</view>
@@ -36,7 +77,7 @@
           <view class="canteen-details">
             <view class="detail-item">
               <image class="icon" src="/assets/icons/time.png" mode="aspectFit"></image>
-              <text>{{item.businessHours}}</text>
+              <text>{{item.openTime}} - {{item.closeTime}}</text>
             </view>
             <view class="detail-item">
               <image class="icon" src="/assets/icons/star.png" mode="aspectFit"></image>

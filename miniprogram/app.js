@@ -15,7 +15,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    baseUrl: 'http://localhost:3000/api'
+    baseUrl: '/api'
   },
   request(options) {
     const baseUrl = this.globalData.baseUrl
@@ -33,7 +33,11 @@ App({
         },
         fail: (err) => {
           console.error('网络请求失败:', err)
-          reject(new Error('网络连接失败，请检查网络设置'))
+          if (err.errMsg.includes('request:fail')) {
+            reject(new Error('服务器连接失败，请检查网络设置或稍后重试'))
+          } else {
+            reject(new Error(err.errMsg || '请求失败，请稍后重试'))
+          }
         }
       })
     })

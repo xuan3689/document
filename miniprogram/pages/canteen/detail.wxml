@@ -64,6 +64,58 @@
       </view>
     </view>
 
+    <!-- 菜品展示区域 -->
+    <view class="dishes-section">
+      <view class="section-header">
+        <text class="section-title">菜品列表</text>
+      </view>
+      
+      <!-- 筛选区域 -->
+      <view class="filter-section">
+        <view class="filter-group">
+          <text class="filter-label">价格区间：</text>
+          <view class="price-range">
+            <picker mode="selector" range="{{priceRanges}}" bindchange="onPriceRangeChange">
+              <view class="picker-item">{{selectedPriceRange}}</view>
+            </picker>
+          </view>
+        </view>
+        <view class="filter-group">
+          <text class="filter-label">菜系：</text>
+          <view class="cuisine-types">
+            <view class="cuisine-item {{item.selected ? 'selected' : ''}}" 
+                  wx:for="{{cuisineTypes}}" 
+                  wx:key="id"
+                  bindtap="onCuisineSelect"
+                  data-id="{{item.id}}">
+              {{item.name}}
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 菜品网格 -->
+      <view class="dishes-grid">
+        <view class="dish-item" 
+              wx:for="{{filteredDishes}}" 
+              wx:key="id"
+              bindtap="navigateToDish"
+              data-id="{{item.id}}">
+          <image class="dish-image" src="{{item.imageUrl}}" mode="aspectFill"></image>
+          <view class="dish-info">
+            <text class="dish-name">{{item.name}}</text>
+            <view class="dish-details">
+              <text class="dish-price">¥{{item.price}}</text>
+              <view class="dish-rating">
+                <image class="icon" src="/assets/icons/star.png"></image>
+                <text>{{item.rating || '暂无评分'}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
     <!-- 窗口列表 -->
     <view class="windows-section">
       <view class="section-header">

@@ -1,0 +1,3 @@
+<view class="background">
+  <image class="background-image" src="/assets/images/backgrounds/default-bg.png" mode="aspectFill"></image>
+</view>
