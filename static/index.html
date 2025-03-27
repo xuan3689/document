@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>座位检测系统</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .video-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        #videoCanvas {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+        }
+        .stats {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>实时座位检测系统</h1>
+        </div>
+        <div class="video-container">
+            <canvas id="videoCanvas"></canvas>
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+        <div class="stats">
+            <h2>检测统计</h2>
+            <p>当前检测人数：<span id="personCount">0</span></p>
+            <p>最后更新时间：<span id="lastUpdate">-</span></p>
+        </div>
+    </div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8766');
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+        const errorMessage = document.getElementById('errorMessage');
+        const personCount = document.getElementById('personCount');
+        const lastUpdate = document.getElementById('lastUpdate');
+
+        // 设置Canvas的实际尺寸
+        canvas.width = 640;
+        canvas.height = 480;
+
+        // WebSocket连接建立时发送初始化消息
+        ws.onopen = () => {
+            ws.send(JSON.stringify({
+                type: 'init',
+                client: 'web-client'
+            }));
+        };
+
+        // 接收服务器消息
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.error) {
+                errorMessage.textContent = data.error;
+                return;
+            }
+
+            // 更新统计信息
+            personCount.textContent = data.total_people;
+            lastUpdate.textContent = new Date(data.timestamp).toLocaleString();
+
+            // 清除错误信息
+            errorMessage.textContent = '';
+
+            // 显示视频帧
+            if (data.frame) {
+                const imageData = new Uint8Array(data.frame.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+                const blob = new Blob([imageData], { type: 'image/jpeg' });
+                const imageUrl = URL.createObjectURL(blob);
+                const img = new Image();
+                
+                img.onload = () => {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    URL.revokeObjectURL(imageUrl);
+                };
+                
+                img.src = imageUrl;
+            }
+        };
+
+        ws.onerror = (error) => {
+            errorMessage.textContent = '连接发生错误，请刷新页面重试';
+            console.error('WebSocket错误:', error);
+        };
+
+        ws.onclose = () => {
+            errorMessage.textContent = '连接已断开，请刷新页面重试';
+        };
+    </script>
+</body>
+</html>

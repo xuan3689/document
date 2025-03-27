@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket测试</title>
+</head>
+<body>
+    <div id="status">未连接</div>
+    <div id="message"></div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8765');
+
+        ws.onopen = () => {
+            document.getElementById('status').textContent = '已连接';
+            // 发送初始化消息
+            const initMessage = {
+                type: 'init',
+                client: 'test-client',
+                timestamp: new Date().toISOString()
+            };
+            ws.send(JSON.stringify(initMessage));
+        };
+
+        ws.onclose = () => {
+            document.getElementById('status').textContent = '连接断开';
+        };
+
+        ws.onerror = (error) => {
+            document.getElementById('status').textContent = '连接错误';
+            console.error('WebSocket错误:', error);
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const data = JSON.parse(event.data);
+                document.getElementById('message').textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error('数据解析错误:', error);
+            }
+        };
+    </script>
+</body>
+</html>

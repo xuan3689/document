@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>座位检测系统</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        .connected {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .disconnected {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        .data-container {
+            margin-top: 20px;
+        }
+        .area {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>实时座位检测系统</h1>
+        <div id="connectionStatus" class="status disconnected">未连接</div>
+        <div class="data-container">
+            <h2>检测数据</h2>
+            <div id="peopleCount">总人数：--</div>
+            <div id="areas"></div>
+            <div id="lastUpdate">最后更新时间：--</div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let reconnectAttempts = 0;
+        const maxReconnectAttempts = 5;
+        const reconnectInterval = 3000;
+
+        function connect() {
+            try {
+                ws = new WebSocket('ws://localhost:8765');
+
+                ws.onopen = () => {
+                    console.log('WebSocket连接已建立');
+                    // 发送初始化消息
+                    const initMessage = {
+                        type: 'init',
+                        client: 'browser',
+                        timestamp: new Date().toISOString()
+                    };
+                    ws.send(JSON.stringify(initMessage));
+                    updateConnectionStatus(true);
+                    reconnectAttempts = 0;
+                };
+
+                ws.onmessage = (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        if (data.error) {
+                            console.error('服务器错误:', data.error);
+                            showError(data.error);
+                        } else {
+                            updateData(data);
+                        }
+                    } catch (e) {
+                        console.error('数据解析错误:', e);
+                    }
+                };
+
+                ws.onclose = () => {
+                    console.log('WebSocket连接已关闭');
+                    updateConnectionStatus(false);
+                    if (reconnectAttempts < maxReconnectAttempts) {
+                        setTimeout(() => {
+                            reconnectAttempts++;
+                            connect();
+                        }, reconnectInterval);
+                    }
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket错误:', error);
+                };
+            } catch (error) {
+                console.error('连接错误:', error);
+                updateConnectionStatus(false);
+            }
+        }
+
+        function updateConnectionStatus(isConnected) {
+            const statusElement = document.getElementById('connectionStatus');
+            statusElement.textContent = isConnected ? '已连接' : '未连接';
+            statusElement.className = `status ${isConnected ? 'connected' : 'disconnected'}`;
+        }
+
+        function updateData(data) {
+            document.getElementById('peopleCount').textContent = `总人数：${data.total_people}`;
+            
+            const areasContainer = document.getElementById('areas');
+            areasContainer.innerHTML = '';
+            data.areas.forEach(area => {
+                const areaElement = document.createElement('div');
+                areaElement.className = 'area';
+                areaElement.textContent = `${area.name}：${area.occupancy}人`;
+                areasContainer.appendChild(areaElement);
+            });
+
+            const timestamp = new Date(data.timestamp).toLocaleString();
+            document.getElementById('lastUpdate').textContent = `最后更新时间：${timestamp}`;
+        }
+
+        function showError(error) {
+            const areasContainer = document.getElementById('areas');
+            areasContainer.innerHTML = `<div class="area" style="color: red;">${error}</div>`;
+        }
+
+        // 页面加载完成后自动连接
+        window.addEventListener('load', connect);
+    </script>
+</body>
+</html>
